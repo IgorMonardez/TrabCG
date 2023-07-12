@@ -49,12 +49,13 @@ export class HalfEdgeDS {
             const z = coords[vid + 2];
 
             const v = new Vertex(vid / 4, x, y, z);
+            console.log('Vertex: ', v);
             this.vertices.push(v);
         }
 
         // construção das faces & half-edges
         for (let tid = 0; tid < trigs.length; tid+=3) {
-            const v0  = this.vertices[ trigs[tid + 0] ];
+            const v0  = this.vertices[ trigs[tid] ];
             const v1  = this.vertices[ trigs[tid + 1] ];
             const v2  = this.vertices[ trigs[tid + 2] ];
 

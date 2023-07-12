@@ -48,7 +48,6 @@ export default class Mesh {
 
 
         var vertices = [];
-        var normal = [];
         var faces = [];
 
         for(var i = 0; i< txtList.length;i++) {
@@ -65,16 +64,15 @@ export default class Mesh {
 
                 for (var j = 1; j < values.length; j++) {
                     var vertexData = values[j].split("/");
-                    var vertexIndex = parseInt(vertexData[0]) - 1; // Não tenho ideia pq subtrai 1 mas funcionou (indices começam na 1?)
+                    var vertexIndex = parseInt(vertexData[0]) - 1;
                     faces.push(vertexIndex);
                 }
             }
         }
 
         console.log('vertices: ', vertices);
-        console.log('normals: ', normal);
         console.log('faces: ', faces);
-        this.heds.build(vertices, normal, faces);
+        this.heds.build(vertices, faces);
     }
 
     createShader(gl) {
@@ -176,7 +174,7 @@ export default class Mesh {
         // [5 0 0 0, 0 5 0 0, 0 0 5 0, 0 0 0 1] * this.mat
     }
 
-    draw(gl, cam, light) {
+    draw(gl, cam) {
         // faces orientadas no sentido anti-horário
         gl.frontFace(gl.CCW);
 
