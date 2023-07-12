@@ -49,7 +49,6 @@ export class HalfEdgeDS {
             const z = coords[vid + 2];
 
             const v = new Vertex(vid / 4, x, y, z);
-            console.log('Vertex: ', v);
             this.vertices.push(v);
         }
 

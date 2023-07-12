@@ -4,7 +4,7 @@ import fragShaderSrc from './phong2.frag.js';
 import Shader from './shader.js';
 import { HalfEdgeDS } from './half-edge.js';
 
-export default class Mesh {
+export default class Mesh2 {
     constructor(delta) {
         // model data structure
         this.heds = new HalfEdgeDS();
