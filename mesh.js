@@ -52,22 +52,16 @@ export default class Mesh {
         var faces = [];
 
         for(var i = 0; i< txtList.length;i++) {
-            var line = file[i];
-
+            var line = txtList[i];
+            var values;
             if(line.startsWith('v ')) {
-                var values = line.split(' ');
+                values = line.split(' ');
                 var x = parseFloat(values[1]);
                 var y = parseFloat(values[2]);
                 var z = parseFloat(values[3]);
                 vertices.push(x, y, z);
-            } else if (line.startsWith("vn ")) {
-                var values = line.split(" ");
-                var x = parseFloat(values[1]);
-                var y = parseFloat(values[2]);
-                var z = parseFloat(values[3]);
-                normal.push(x, y, z);
             } else if (line.startsWith("f ")) {
-                var values = line.split(" ");
+                values = line.split(" ");
 
                 for (var j = 1; j < values.length; j++) {
                     var vertexData = values[j].split("/");
@@ -205,9 +199,5 @@ export default class Mesh {
         gl.drawElements(gl.TRIANGLES, this.heds.faces.length * 3, gl.UNSIGNED_INT, 0);
 
         gl.disable(gl.CULL_FACE);
-    }
-
-    main() {
-
     }
 }
