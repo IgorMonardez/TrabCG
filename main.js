@@ -1,6 +1,7 @@
 import Camera from './camera.js';
 import Light from './light.js';
 import Mesh from './mesh.js';
+import Mesh2 from "./mesh2.js";
 
 class Scene {
     constructor(gl) {
@@ -11,15 +12,15 @@ class Scene {
         this.light = new Light();
 
         // Mesh
-        this.mesh = new Mesh( 1.0);
-        this.copy = new Mesh(-1.0);
+        this.mesh = new Mesh( 0.0);
+        this.copy = new Mesh2(-10.0);
     }
 
     async init(gl) {
-        await this.mesh.loadMeshV4();
+        await this.mesh.loadMeshV4('./bunny.obj');
         this.mesh.init(gl, this.light);
 
-        await this.copy.loadMeshV4()
+        await this.copy.loadMeshV4('./armadillo.obj');
         this.copy.init(gl, this.light);
     }
 

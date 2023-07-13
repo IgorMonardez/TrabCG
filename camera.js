@@ -1,7 +1,7 @@
 export default class Camera {
     constructor(gl) {
         // Posição da camera
-        this.eye = vec3.fromValues(1.0, 1.0, 1.0);
+        this.eye = vec3.fromValues(7.0, 7.0, 7.0);
         this.at  = vec3.fromValues(0.0, 0.0, 0.0);
         this.up  = vec3.fromValues(0.0, 1.0, 0.0);
 
@@ -17,6 +17,9 @@ export default class Camera {
         this.near = 0;
         this.far = 5;
 
+        this.angle = 0;
+        this.rotationSpeed = 0.001;
+
         // Matrizes View e Projection
         this.view = mat4.create();
         this.proj = mat4.create();
@@ -30,23 +33,33 @@ export default class Camera {
         return this.proj;
     }
 
-    updateViewMatrix() {
-        mat4.identity( this.view );
-        mat4.lookAt(this.view, this.eye, this.at, this.up);
-        // TODO: Tentar implementar as contas diretamente
-    }
-
-    updateProjectionMatrix(type = '') {
-        mat4.identity( this.proj );
-
-        if (type === 'ortho') {
-            mat4.ortho(this.proj, this.left * 1024/768, this.right * 1024/768, this.bottom , this.top, this.near, this.far);
-        } else {
-            mat4.perspective(this.proj, this.fovy, this.aspect, this.near, this.far);
+    updateAngle() {
+        this.angle += this.rotationSpeed;
+        if( this.angle >= 2 * Math.PI) {
+            this.angle -= 2 * Math.PI;
         }
     }
 
+    updateViewMatrix() {
+        mat4.identity( this.view );
+        mat4.lookAt(this.view, this.eye, this.at, this.up);
+
+        const x = Math.cos(this.angle) * 7 ;
+        const z = Math.sin(this.angle) * 7;
+        this.eye[0] = x;
+        this.eye[2] = z;
+        // TODO: Tentar implementar as contas diretamente
+    }
+
+    updateProjectionMatrix() {
+        mat4.identity( this.proj );
+
+        mat4.perspective(this.proj, this.fovy, this.aspect, this.near, this.far);
+
+    }
+
     updateCam() {
+        this.updateAngle();
         this.updateViewMatrix();
         this.updateProjectionMatrix();
     }

@@ -48,7 +48,6 @@ export default class Mesh {
 
 
         var vertices = [];
-        var normal = [];
         var faces = [];
 
         for(var i = 0; i< txtList.length;i++) {
@@ -56,25 +55,24 @@ export default class Mesh {
             var values;
             if(line.startsWith('v ')) {
                 values = line.split(' ');
-                var x = parseFloat(values[1]);
-                var y = parseFloat(values[2]);
-                var z = parseFloat(values[3]);
-                vertices.push(x, y, z);
+                vertices.push(parseFloat(values[1]));
+                vertices.push(parseFloat(values[2]));
+                vertices.push(parseFloat(values[3]));
+                vertices.push(1.0);
             } else if (line.startsWith("f ")) {
-                values = line.split(" ");
+                values = line.split(' ');
 
                 for (var j = 1; j < values.length; j++) {
                     var vertexData = values[j].split("/");
-                    var vertexIndex = parseInt(vertexData[0]) - 1; // Não tenho ideia pq subtrai 1 mas funcionou (indices começam na 1?)
+                    var vertexIndex = parseInt(vertexData[0]) - 1;
                     faces.push(vertexIndex);
                 }
             }
         }
 
         console.log('vertices: ', vertices);
-        console.log('normals: ', normal);
         console.log('faces: ', faces);
-        this.heds.build(vertices, normal, faces);
+        this.heds.build(vertices, faces);
     }
 
     createShader(gl) {
@@ -172,11 +170,11 @@ export default class Mesh {
         mat4.translate(this.model, this.model, [-0.25, -0.25, -0.25]);
         // [1 0 0 -0.5, 0 1 0 -0.5, 0 0 1 -0.5, 0 0 0 1] * this.mat
 
-        mat4.scale(this.model, this.model, [5, 5, 5]);
-        // [5 0 0 0, 0 5 0 0, 0 0 5 0, 0 0 0 1] * this.mat
+        mat4.scale(this.model, this.model, [3, 3, 3]);
+        // [3 0 0 0, 0 3 0 0, 0 0 3 0, 0 0 0 1] * this.mat
     }
 
-    draw(gl, cam, light) {
+    draw(gl, cam) {
         // faces orientadas no sentido anti-horário
         gl.frontFace(gl.CCW);
 
