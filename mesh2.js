@@ -160,7 +160,7 @@ export default class Mesh2 {
         mat4.translate(this.model, this.model, [this.delta, 0, 0]);
         // [1 0 0 delta, 0 1 0 0, 0 0 1 0, 0 0 0 1] * this.mat
 
-        mat4.rotateY(this.model, this.model, this.angle);
+        mat4.rotateZ(this.model, this.model, this.angle);
         // [ cos(this.angle) 0 -sin(this.angle) 0,
         //         0         1        0         0,
         //   sin(this.angle) 0  cos(this.angle) 0,
@@ -170,7 +170,7 @@ export default class Mesh2 {
         mat4.translate(this.model, this.model, [-0.25, -0.25, -0.25]);
         // [1 0 0 -0.5, 0 1 0 -0.5, 0 0 1 -0.5, 0 0 0 1] * this.mat
 
-        mat4.scale(this.model, this.model, [5, 5, 5]);
+        mat4.scale(this.model, this.model, [1, 1, 1]);
         // [5 0 0 0, 0 5 0 0, 0 0 5 0, 0 0 0 1] * this.mat
     }
 

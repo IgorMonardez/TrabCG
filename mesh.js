@@ -170,8 +170,8 @@ export default class Mesh {
         mat4.translate(this.model, this.model, [-0.25, -0.25, -0.25]);
         // [1 0 0 -0.5, 0 1 0 -0.5, 0 0 1 -0.5, 0 0 0 1] * this.mat
 
-        mat4.scale(this.model, this.model, [5, 5, 5]);
-        // [5 0 0 0, 0 5 0 0, 0 0 5 0, 0 0 0 1] * this.mat
+        mat4.scale(this.model, this.model, [3, 3, 3]);
+        // [3 0 0 0, 0 3 0 0, 0 0 3 0, 0 0 0 1] * this.mat
     }
 
     draw(gl, cam) {
