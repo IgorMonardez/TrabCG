@@ -9,11 +9,6 @@ export default class Camera {
         this.fovy = Math.PI / 2;
         this.aspect = gl.canvas.width / gl.canvas.height;
 
-        this.left = -2.5;
-        this.right = 2.5;
-        this.top = 2.5;
-        this.bottom = -2.5;
-
         this.near = 0;
         this.far = 5;
 

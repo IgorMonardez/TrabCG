@@ -1,7 +1,6 @@
 export default class Light {
     constructor() {
-        this.pos = vec4.fromValues(2.0, 2.0, 2.0, 1.0);
-
+        this.pos = vec4.fromValues(5.0, 5.0, 5.0, 1.0);
         this.amb_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
         this.amb_k = 0.2;
 
@@ -28,7 +27,7 @@ export default class Light {
         gl.uniform1f(difKLoc, this.dif_k);
 
         const espCLoc = gl.getUniformLocation(program, "light_esp_c");
-        gl.uniform4fv(espCLoc, this.pos);
+        gl.uniform4fv(espCLoc, this.esp_c);
         const espKLoc = gl.getUniformLocation(program, "light_esp_k")
         gl.uniform1f(espKLoc, this.esp_k);
         const espPLoc = gl.getUniformLocation(program, "light_esp_p")

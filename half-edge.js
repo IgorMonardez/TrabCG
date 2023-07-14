@@ -6,7 +6,6 @@ export class Vertex {
         this.normal = [0.0, 0.0, 0.0, 0.0];
 
         this.scalar = 0.0;
-
         this.he = null;
     }
 }
@@ -158,7 +157,7 @@ export class HalfEdgeDS {
             const v = this.vertices[vId];
 
             coords.push(...v.position);
-            scalars.push(vId / this.vertices.length);
+            scalars.push(vId);
             normals.push(...v.normal);
         }
 
@@ -167,9 +166,5 @@ export class HalfEdgeDS {
         }
 
         return [coords, scalars, normals, indices];
-    }
-
-    estrela(v) {
-
     }
 }
