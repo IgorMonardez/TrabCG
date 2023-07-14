@@ -1,14 +1,15 @@
-import vertShaderSrc from './phong2.vert.js';
-import fragShaderSrc from './phong2.frag.js';
+import vertShaderSrc from './phong.vert.js';
+import fragShaderSrc from './phong.frag.js';
 
 import Shader from './shader.js';
 import { HalfEdgeDS } from './half-edge.js';
 
 export default class Mesh {
-    constructor(delta) {
+    constructor(delta, animal) {
         // model data structure
         this.heds = new HalfEdgeDS();
 
+        this.animal = animal;
         // Matriz de modelagem
         this.angle = 0;
         this.delta = delta;
@@ -63,7 +64,7 @@ export default class Mesh {
                 values = line.split(' ');
 
                 for (var j = 1; j < values.length; j++) {
-                    var vertexData = values[j].split("/");
+                    var vertexData = values[j].split("//");
                     var vertexIndex = parseInt(vertexData[0]) - 1;
                     faces.push(vertexIndex);
                 }
@@ -154,24 +155,32 @@ export default class Mesh {
     }
 
     updateModelMatrix() {
-        this.angle += 0.005;
+        this.angle += 0.01;
 
         mat4.identity( this.model );
         mat4.translate(this.model, this.model, [this.delta, 0, 0]);
-        // [1 0 0 delta, 0 1 0 0, 0 0 1 0, 0 0 0 1] * this.mat
+        if(this.animal === 'amardillo') {
 
-        mat4.rotateY(this.model, this.model, this.angle);
-        // [ cos(this.angle) 0 -sin(this.angle) 0,
-        //         0         1        0         0,
-        //   sin(this.angle) 0  cos(this.angle) 0,
-        //         0         0        0         1]
-        // * this.mat
+            mat4.rotateY(this.model, this.model, this.angle);
 
+        }
+        else if( this.animal === 'bunny') {
+
+            mat4.rotateZ(this.model, this.model, this.angle);
+
+        }
         mat4.translate(this.model, this.model, [-0.25, -0.25, -0.25]);
-        // [1 0 0 -0.5, 0 1 0 -0.5, 0 0 1 -0.5, 0 0 0 1] * this.mat
 
-        mat4.scale(this.model, this.model, [3, 3, 3]);
-        // [3 0 0 0, 0 3 0 0, 0 0 3 0, 0 0 0 1] * this.mat
+        if(this.animal === 'amardillo') {
+
+            mat4.scale(this.model, this.model, [3, 3, 3]);
+
+        }
+        else if(this.animal === 'bunny') {
+
+            mat4.scale(this.model, this.model, [1, 1, 1]);
+
+        }
     }
 
     draw(gl, cam) {
@@ -182,6 +191,7 @@ export default class Mesh {
         gl.enable(gl.CULL_FACE);
         gl.cullFace(gl.BACK);
 
+        gl.useProgram(this.program);
         // updates the model transformations
         this.updateModelMatrix();
 
@@ -189,10 +199,14 @@ export default class Mesh {
         const view = cam.getView();
         const proj = cam.getProj();
 
-        gl.useProgram(this.program);
+
         gl.uniformMatrix4fv(this.uModelLoc, false, model);
         gl.uniformMatrix4fv(this.uViewLoc, false, view);
         gl.uniformMatrix4fv(this.uProjectionLoc, false, proj);
+
+        gl.bindVertexArray(this.vaoLoc);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indicesLoc);
+
 
         gl.drawElements(gl.TRIANGLES, this.heds.faces.length * 3, gl.UNSIGNED_INT, 0);
 

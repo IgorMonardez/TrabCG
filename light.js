@@ -1,16 +1,27 @@
 export default class Light {
-    constructor() {
-        this.pos = vec4.fromValues(2.0, 2.0, 2.0, 1.0);
-
+    constructor(cor) {
+        this.cor = cor;
         this.amb_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
-        this.amb_k = 0.2;
-
-        this.dif_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
-        this.dif_k = 0.6;
+        this.amb_k = 0.4;
 
         this.esp_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
-        this.esp_k = 0.3;
-        this.esp_p = 5.0;
+        this.esp_k = 1;
+        this.esp_p = 1.0;
+
+        if(cor === 'branco') {
+            this.pos = vec4.fromValues(-7.0, 2.0, 2.0, 1.0);
+
+            this.dif_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
+            this.dif_k = 100;
+        }
+        else if(cor === 'amarelo') {
+            this.pos = vec4.fromValues(1.0, 1, 1, 1);
+            this.dif_c = vec4.fromValues(1.0, 1.0, .0, 1.0);
+            this.dif_k = 10;
+
+        }
+
+
     }
 
     createUniforms(gl, program){
@@ -28,7 +39,7 @@ export default class Light {
         gl.uniform1f(difKLoc, this.dif_k);
 
         const espCLoc = gl.getUniformLocation(program, "light_esp_c");
-        gl.uniform4fv(espCLoc, this.pos);
+        gl.uniform4fv(espCLoc, this.esp_c);
         const espKLoc = gl.getUniformLocation(program, "light_esp_k")
         gl.uniform1f(espKLoc, this.esp_k);
         const espPLoc = gl.getUniformLocation(program, "light_esp_p")
@@ -36,6 +47,20 @@ export default class Light {
     }
 
     updateLight() {
-        // TODO: Change light position
+        var angle = 0;
+        var rotationSpeed = 0.01;
+        if(this.cor === 'branco')  {
+            angle += rotationSpeed;
+            if( angle >= 2 * Math.PI) {
+                angle -= 2 * Math.PI;
+            }
+
+
+            const x = Math.cos(angle) * 7 ;
+            const z = Math.sin(angle) * 7;
+            this.pos[0] = x;
+            this.pos[2] = z;
+
+        }
     }
 }

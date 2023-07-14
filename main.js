@@ -1,7 +1,6 @@
 import Camera from './camera.js';
 import Light from './light.js';
 import Mesh from './mesh.js';
-import Mesh2 from "./mesh2.js";
 
 class Scene {
     constructor(gl) {
@@ -9,27 +8,32 @@ class Scene {
         this.cam = new Camera(gl);
 
         // Luz
-        this.light = new Light();
+        this.branco = new Light('branco');
+        this.amarelo = new Light('amarelo');
 
         // Mesh
-        this.mesh = new Mesh( 0.0);
-        this.copy = new Mesh2(-10.0);
+        this.tatuzao = new Mesh( 0.0, 'armadillo');
+        this.coelhinho = new Mesh(4.0, 'bunny');
     }
 
     async init(gl) {
-        await this.mesh.loadMeshV4('./bunny.obj');
-        this.mesh.init(gl, this.light);
-
-        await this.copy.loadMeshV4('./armadillo.obj');
-        this.copy.init(gl, this.light);
+        await this.tatuzao.loadMeshV4('./armadillo.obj');
+        await this.coelhinho.loadMeshV4('./bunny.obj');
+        this.tatuzao.init(gl, this.branco);
+        this.tatuzao.init(gl, this.amarelo);
+        this.coelhinho.init(gl, this.branco);
+        this.coelhinho.init(gl, this.amarelo);
     }
 
     draw(gl) {
         this.cam.updateCam();
-        this.light.updateLight();
+        this.branco.updateLight();
+        this.amarelo.updateLight();
 
-        this.mesh.draw(gl, this.cam, this.light);
-        this.copy.draw(gl, this.cam, this.light);
+        this.tatuzao.draw(gl, this.cam, this.branco);
+        this.tatuzao.draw(gl, this.cam, this.amarelo);
+        this.coelhinho.draw(gl, this.cam, this.branco);
+        this.coelhinho.draw(gl, this.cam, this.amarelo);
     }
 }
 
@@ -57,7 +61,7 @@ class Main {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
         // só desenha se as malhas estiverem carregadas
-        if (this.scene.mesh.isReady() && this.scene.copy.isReady() ) {
+        if (this.scene.tatuzao.isReady() && this.scene.coelhinho.isReady() ) {
             this.scene.draw(this.gl);
         }
 
