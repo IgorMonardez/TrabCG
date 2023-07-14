@@ -2,22 +2,22 @@ export default class Light {
     constructor(cor) {
         this.cor = cor;
         this.amb_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
-        this.amb_k = 0.4;
+        this.amb_k = 0.0;
 
         this.esp_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
         this.esp_k = 1;
         this.esp_p = 1.0;
 
-        if(cor === 'branco') {
-            this.pos = vec4.fromValues(-7.0, 2.0, 2.0, 1.0);
+        if(this.cor === 'branco') {
+            this.pos = vec4.fromValues(7.0, 2.0, 2.0, 1.0);
 
             this.dif_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
-            this.dif_k = 100;
-        }
-        else if(cor === 'amarelo') {
-            this.pos = vec4.fromValues(1.0, 1, 1, 1);
-            this.dif_c = vec4.fromValues(1.0, 1.0, .0, 1.0);
             this.dif_k = 10;
+        }
+        else if(this.cor === 'amarelo') {
+            this.pos = vec4.fromValues(0.0, 0.0, 0.0, 1.0);
+            this.dif_c = vec4.fromValues(1.0, 1.0, .0, 1.0);
+            this.dif_k = 20;
 
         }
 
@@ -47,17 +47,17 @@ export default class Light {
     }
 
     updateLight() {
-        var angle = 0;
-        var rotationSpeed = 0.01;
         if(this.cor === 'branco')  {
+            var angle = 0;
+            var rotationSpeed = 0.01;
             angle += rotationSpeed;
             if( angle >= 2 * Math.PI) {
                 angle -= 2 * Math.PI;
             }
 
 
-            const x = Math.cos(angle) * 7 ;
-            const z = Math.sin(angle) * 7;
+            const x = Math.cos(angle) * (7) ;
+            const z = Math.sin(angle) * 2;
             this.pos[0] = x;
             this.pos[2] = z;
 
