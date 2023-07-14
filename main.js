@@ -8,26 +8,32 @@ class Scene {
         this.cam = new Camera(gl);
 
         // Luz
-        this.light = new Light();
+        this.branco = new Light('branco');
+        this.amarelo = new Light('amarelo');
 
         // Mesh
         this.tatuzao = new Mesh( 0.0, 'armadillo');
-        this.coelhinho = new Mesh(-10.0, 'bunny');
+        this.coelhinho = new Mesh(4.0, 'bunny');
     }
 
     async init(gl) {
-        await this.tatuzao.loadMeshV4('./bunny.obj');
-        await this.coelhinho.loadMeshV4('./armadillo.obj');
-        this.tatuzao.init(gl, this.light);
-        this.coelhinho.init(gl, this.light);
+        await this.tatuzao.loadMeshV4('./armadillo.obj');
+        await this.coelhinho.loadMeshV4('./bunny.obj');
+        this.tatuzao.init(gl, this.branco);
+        this.tatuzao.init(gl, this.amarelo);
+        this.coelhinho.init(gl, this.branco);
+        this.coelhinho.init(gl, this.amarelo);
     }
 
     draw(gl) {
         this.cam.updateCam();
-        this.light.updateLight();
+        this.branco.updateLight();
+        this.amarelo.updateLight();
 
-        this.tatuzao.draw(gl, this.cam, this.light);
-        this.coelhinho.draw(gl, this.cam, this.light);
+        this.tatuzao.draw(gl, this.cam, this.branco);
+        this.tatuzao.draw(gl, this.cam, this.amarelo);
+        this.coelhinho.draw(gl, this.cam, this.branco);
+        this.coelhinho.draw(gl, this.cam, this.amarelo);
     }
 }
 

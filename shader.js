@@ -30,7 +30,7 @@ export default class Shader {
     }
 
     static createBuffer(gl, type, data) {
-        if (data.length == 0)
+        if (data.length === 0)
             return null;
 
         if (!Shader.isArrayBuffer(data)) {
@@ -51,7 +51,7 @@ export default class Shader {
 
         gl.bindVertexArray(vao);
 
-        if (posAttribLoc != null && posAttribLoc != undefined) {
+        if (posAttribLoc != null) {
             gl.enableVertexAttribArray(posAttribLoc);
             var size = 4;
             var type = gl.FLOAT;
@@ -59,15 +59,15 @@ export default class Shader {
             gl.vertexAttribPointer(posAttribLoc, size, type, false, 0, 0);
         }
 
-        if (colorAttribLoc != null && colorAttribLoc != undefined) {
+        if (colorAttribLoc != null) {
             gl.enableVertexAttribArray(colorAttribLoc);
-            size = 4;
+            size = 1;
             type = gl.FLOAT;
             gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
             gl.vertexAttribPointer(colorAttribLoc, size, type, false, 0, 0);
         }
 
-        if (normAttribLoc != null && normAttribLoc != undefined) {
+        if (normAttribLoc != null) {
             gl.enableVertexAttribArray(normAttribLoc);
             size = 4;
             type = gl.FLOAT;

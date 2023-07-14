@@ -157,7 +157,7 @@ export class HalfEdgeDS {
             const v = this.vertices[vId];
 
             coords.push(...v.position);
-            scalars.push(vId);
+            scalars.push(2);
             normals.push(...v.normal);
         }
 
